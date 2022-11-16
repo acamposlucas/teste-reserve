@@ -2,9 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface ICountry {
-	country: string;
-	totalConfirmed: number;
-	totalRecovered: number;
+	Country: string;
+	TotalConfirmed: number;
+	TotalRecovered: number;
 }
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
 
 	return (
 		<div className="bg-zinc-900 min-h-screen w-full flex items-center justify-center">
-			<table className="text-zinc-100">
+			<table className="text-zinc-100 border-spacing-4 border-separate border-slate-700">
 				<thead>
 					<tr>
 						<td>Posição</td>
@@ -34,20 +34,24 @@ function App() {
 				<tbody>
 					{countries.length > 0 &&
 						countries
-							.sort((a, b) => a.totalConfirmed - b.totalConfirmed)
+							.sort((a, b) => b.TotalConfirmed - a.TotalConfirmed)
 							.slice(0, 10)
 							.map(
 								(
-									{ country, totalConfirmed, totalRecovered },
+									{ Country, TotalConfirmed, TotalRecovered },
 									index
-								) => (
-									<tr key={country}>
-										<td>{index + 1}</td>
-										<td>{country}</td>
-										<td>{totalConfirmed}</td>
-										<td></td>
-									</tr>
-								)
+								) => {
+									const ActiveConfirmed =
+										TotalConfirmed - TotalRecovered;
+									return (
+										<tr key={Country}>
+											<td>{index + 1}</td>
+											<td>{Country}</td>
+											<td>{TotalConfirmed}</td>
+											<td>{ActiveConfirmed}</td>
+										</tr>
+									);
+								}
 							)}
 				</tbody>
 			</table>
